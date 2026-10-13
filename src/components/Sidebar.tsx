@@ -187,7 +187,7 @@ export const Sidebar: React.FC = () => {
           <div className="mt-1.5 flex items-center justify-between text-[11px] text-stone-300">
             <span>Est. Net Profit:</span>
             <span className="font-bold text-emerald-400">
-              ₹{activeBusiness.monthlyProfitEstimate.toLocaleString('en-IN')}/mo
+              ₹{activeBusiness?.monthlyProfitEstimate?.toLocaleString('en-IN') || '0'}/mo
             </span>
           </div>
         </div>

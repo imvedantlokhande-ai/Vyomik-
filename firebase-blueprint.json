@@ -1,0 +1,133 @@
+{
+  "entities": {
+    "userProfile": {
+      "title": "UserProfile",
+      "description": "The user's business profile and preferences",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The authentication user ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name of the user"
+        },
+        "location": {
+          "type": "string",
+          "description": "General location string"
+        },
+        "village": {
+          "type": "string",
+          "description": "Village name"
+        },
+        "block": {
+          "type": "string",
+          "description": "Block name"
+        },
+        "district": {
+          "type": "string",
+          "description": "District name"
+        },
+        "state": {
+          "type": "string",
+          "description": "State name"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number"
+        },
+        "age": {
+          "type": "number",
+          "description": "Age of the user"
+        },
+        "gender": {
+          "type": "string",
+          "description": "Gender of the user"
+        },
+        "education": {
+          "type": "string",
+          "description": "Education level"
+        },
+        "availableCapital": {
+          "type": "number",
+          "description": "Available capital in INR"
+        },
+        "monthlyExpenses": {
+          "type": "number",
+          "description": "Monthly expenses in INR"
+        },
+        "landAsset": {
+          "type": "string",
+          "description": "Land details"
+        },
+        "powerReliabilityHours": {
+          "type": "number",
+          "description": "Hours of continuous power per day"
+        },
+        "shgMember": {
+          "type": "boolean",
+          "description": "Whether user is an SHG member"
+        },
+        "shgName": {
+          "type": "string",
+          "description": "Name of SHG if applicable"
+        },
+        "casteCategory": {
+          "type": "string",
+          "description": "Social and caste category"
+        },
+        "skills": {
+          "type": "string",
+          "description": "List of skills comma-separated or as list"
+        },
+        "experience": {
+          "type": "string",
+          "description": "Experience years and level"
+        },
+        "businessType": {
+          "type": "string",
+          "description": "Proposed business category"
+        },
+        "businessStage": {
+          "type": "string",
+          "description": "Stage of business"
+        },
+        "resources": {
+          "type": "string",
+          "description": "List of available physical assets and infrastructure"
+        },
+        "businessGoal": {
+          "type": "string",
+          "description": "Primary goal/milestone"
+        },
+        "riskAppetite": {
+          "type": "string",
+          "description": "Risk preference level"
+        },
+        "preferredLanguage": {
+          "type": "string",
+          "description": "Preferred interface language"
+        },
+        "selectedBusinessId": {
+          "type": "string",
+          "description": "Selected business model ID"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "village",
+        "district",
+        "state",
+        "preferredLanguage"
+      ]
+    }
+  },
+  "firestore": {
+    "/profiles/{userId}": {
+      "schema": "userProfile",
+      "description": "User profiles indexed by their Firebase authentication UID"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "VYOMIK",
+  "description": "Helps rural Indian micro-entrepreneurs choose, plan, and grow resilient businesses through local opportunities, AI advising, financial modeling, scheme matching, and action plans.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

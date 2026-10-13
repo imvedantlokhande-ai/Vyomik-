@@ -1,0 +1,70 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Standard authentication checks
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // 2. Validation Blueprint for userProfile
+    function isValidUserProfile(data) {
+      return (
+        data.id is string &&
+        data.id == request.auth.uid &&
+        data.name is string &&
+        data.name.size() <= 200 &&
+        data.preferredLanguage is string &&
+        (data.preferredLanguage == 'English' || data.preferredLanguage == 'Hindi' || data.preferredLanguage == 'Marathi') &&
+        data.village is string &&
+        data.village.size() <= 200 &&
+        data.district is string &&
+        data.district.size() <= 200 &&
+        data.state is string &&
+        data.state.size() <= 200
+      );
+    }
+
+    // Profiles Collection rules
+    match /profiles/{userId} {
+      // Path Variable Hardening
+      allow get: if isOwner(userId) && isValidId(userId);
+      
+      // Ensure secure list queries without list delegation
+      allow list: if isOwner(userId) && resource.data.id == request.auth.uid;
+
+      allow create: if (
+        isOwner(userId) &&
+        isValidId(userId) &&
+        isValidUserProfile(request.resource.data) &&
+        request.resource.data.keys().hasAll(['id', 'name', 'village', 'district', 'state', 'preferredLanguage']) &&
+        request.resource.data.keys().size() <= 27
+      );
+
+      allow update: if (
+        isOwner(userId) &&
+        isValidId(userId) &&
+        isValidUserProfile(request.resource.data) &&
+        // Ensure id is immutable
+        request.resource.data.id == resource.data.id &&
+        // Action pattern boundary check
+        request.resource.data.keys().size() <= 27
+      );
+
+      allow delete: if isOwner(userId) && isValidId(userId);
+    }
+  }
+}
